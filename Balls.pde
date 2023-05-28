@@ -10,6 +10,9 @@ class Balls {
   float timeColor = 120;
   int badCollision = 0;
   
+  boolean sensX = false;
+  boolean sensY = false;
+  
   Balls(){
     isDead = false;
     size = 10;
@@ -53,20 +56,38 @@ class Balls {
    }
    
    private void collideEnvironment(){
-           float sensY = 1;
-           float sensX = 1;
-          
+           //float sensY = 1;
+           //float sensX = 1;
+          boolean reverseY = false; 
+          boolean reverseX = false; 
+          List<Brique> _briques = _level.getBriques();
+            
+              for (Brique brique : _briques) {
+                if (brique.getCollide(position.x, position.y)) {
+                      reverseY = !reverseY;
+                      reverseX = !reverseX;
+                  }
+              }
+              sensY = reverseY;
+    sensX = reverseX;
           if(collidePlateau()){velocity.add(energie); }
-          if(collideFloor()){velocity.sub(dissipation); badCollision++; timeColor = 120;}
+          if(collideFloor()){
+                            //velocity.sub(dissipation); 
+                            badCollision++; timeColor = 120;
+                            }
           
-          if(collideFloor()||collidePlateau()){ sensY = - 1; }else{ sensY = 1; }
-          if(collideWall()){ sensX = - 1; }else{ sensX = 1; }
-          
-           velocity.y *= sensY;
-           velocity.x *= sensX;
+
+           
+           if(collideFloor()||collidePlateau()){ sensY = !sensY; }
+           if(collideWall()){ sensX = !sensX; }
+    
+          velocity.y *= sensY ? -1 : 1;
+          velocity.x *= sensX ? -1 : 1;
    }
 
 private boolean collideFloor() { return position.y > height ? true : false; }
 private boolean collideWall() { return position.x > width || position.x < 0 ? true : false; }
-private boolean collidePlateau(){ return playerLocal.getCollide(position.x, position.y);}
+private boolean collidePlateau(){ return _level.getPlayerLocal().getCollide(position.x, position.y);}
+
+
 }

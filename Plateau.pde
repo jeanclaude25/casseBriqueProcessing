@@ -1,5 +1,6 @@
 class Plateau{
     float Largeur = 100;
+    float hauteur = height - 100;
     float Thickness = 5;
     float start, end;
   
@@ -13,12 +14,12 @@ class Plateau{
          
          fill(255);
          stroke(255);
-         rect(start, height - 50, Largeur, Thickness);
+         rect(start, hauteur, Largeur, Thickness);
     }
   
   public boolean getCollide(float x, float y){ 
     
     return x > start && x < end && 
-            y > height - 50 - Thickness && y< height - 50 + Thickness? true : false; }
+            y > hauteur - Thickness && y< hauteur + Thickness? true : false; }
   
 }

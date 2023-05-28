@@ -1,5 +1,5 @@
 
-Level game;
+Level _level;
 
 void setup(){
   
@@ -8,7 +8,7 @@ size(800, 800, P2D);
 frameRate(240);
 orientation(LANDSCAPE);
 
-game = new Level();
+_level = new Level();
 
 hint(DISABLE_DEPTH_MASK);
 
@@ -19,6 +19,6 @@ hint(DISABLE_DEPTH_MASK);
 
 void draw(){
 
-game.draw();
+_level.draw();
 
 }
