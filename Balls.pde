@@ -1,6 +1,6 @@
 class Balls {
   PVector position, velocity, dissipation;
-  float maxBallVelocity = 5.0;
+  float maxBallVelocity = 6.0;
   
   float size;
   PVector gravity = new PVector(0, 0.01);
@@ -8,8 +8,12 @@ class Balls {
   
   color ballColor;
   
-  float timeColor = 120;
-  int badCollision = 0;
+  float timeColor = 60;
+  float timeBricCollisionColor = 60;
+  boolean floorHit = false;
+  boolean bricHit = false;
+  int badCollisionCount = 0;
+  int bricCollisionCount = 0;
   
   boolean sensX = false;
   boolean sensY = false;
@@ -39,11 +43,30 @@ class Balls {
                  
    
    private void ballStyle(){
-                       if(badCollision > 0){
-                                           float col = map(timeColor,0,120,255,0);
-                                           if(timeColor>0){ timeColor--; }
-                                           ballColor = color(255,col,col);
-                                           }
+                       if (bricCollisionCount > 0 && bricHit) {
+                                                  float col1 = map(timeBricCollisionColor, 0, 120, 255, 0);
+                                                  if (timeBricCollisionColor > 0) { timeBricCollisionColor--; }else{bricHit = false;}
+                                                  
+                                                  if (badCollisionCount > 0 && floorHit) {
+                                                                            float col2 = map(timeColor, 0, 120, 255, 0);
+                                                                            if (timeColor > 0) {
+                                                                                timeColor--;
+                                                                            }else{floorHit=false;}
+                                                                            
+                                                                            float mixedRed = (col1 + 255) / 2;  // Mélange des composantes rouges
+                                                                            float mixedGreen = col1 / 2;        // Mélange des composantes vertes
+                                                                            float mixedBlue = (col2 + 255) / 2; // Mélange des composantes bleues
+                                                                            
+                                                                            ballColor = color(mixedRed, mixedGreen, mixedBlue);
+                                                  } else {
+                                                          ballColor = color(col1, col1, 255);
+                                                          }
+                                                  
+                                                  }else if (badCollisionCount > 0 && floorHit) {
+                                                                  float col = map(timeColor, 0, 120, 255, 0);
+                                                                  if (timeColor > 0) { timeColor--; }else{floorHit=false;}
+                                                                  ballColor = color(255, col, col);
+                                                   }else{ ballColor = color(255); }
                         fill(ballColor);
                         stroke(ballColor);
                        }
@@ -66,7 +89,7 @@ class Balls {
           if(collidePlateau()){ increaseEnergie(new PVector(0, 1)); }
           if(collideFloor()){
                             //velocity.sub(dissipation); 
-                            badCollision++; timeColor = 120;
+                            badCollisionCount++; floorHit = true; timeColor = 60;
                             }
           
 
@@ -93,6 +116,9 @@ private void collideBrique(){
                                         for (Brique brique : _briques) {
                                                       if(brique.IsNotDead()){
                                                                 if (brique.getCollide(position.x, position.y)) {
+                                                                      bricCollisionCount++;
+                                                                      bricHit = true;
+                                                                      timeBricCollisionColor = 60;
                                                                       reverseY = !reverseY;
                                                                       reverseX = !reverseX;
                                                                   }

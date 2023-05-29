@@ -8,7 +8,7 @@ size(800, 800, P2D);
 frameRate(240);
 orientation(LANDSCAPE);
 
-_level = new Level(1);
+_level = new Level(100);
 
 //hint(DISABLE_DEPTH_MASK);
 
