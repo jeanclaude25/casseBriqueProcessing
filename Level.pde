@@ -4,7 +4,6 @@ import java.util.List;
 class Level {
   int ballNumber;
   FX screenFX;
-  //Balls _balls;
   Plateau _plateau;
   UI _ui;
   
@@ -12,10 +11,9 @@ class Level {
   List<Brique> _briques;
 
   
-    Level(){
-      ballNumber = 100;
+    Level(int tempBalls){
+      ballNumber = tempBalls-1;
       screenFX = new FX();
-      //_balls = new Balls();
       _plateau = new Plateau();
       _ui = new UI();
       
@@ -23,7 +21,7 @@ class Level {
       _briques = new ArrayList<>();
       
       for (int i = 0; i <= ballNumber; i ++) {
-      _balls.add(new Balls(new PVector(width/2+random(-20, 20), height/2 + random(-20, 20))));
+      _balls.add(new Balls(new PVector(width/2+random(-100, 100), height/2 + random(-100, 100))));
       }
       
       for (int i = 10; i <= 750; i += 10) {
