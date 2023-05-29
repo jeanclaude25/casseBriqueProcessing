@@ -7,6 +7,7 @@ class Balls {
   boolean isDead;
   
   color ballColor;
+  color velocityColor;
   
   float timeColor = 60;
   float timeBricCollisionColor = 60;
@@ -28,7 +29,14 @@ class Balls {
     }
     
    public void draw(){
-    
+                   //VELOCITY COLOR
+                   float velocityMagnitude = velocity.mag(); // Magnitude de la vitesse
+                    float normalizedVelocity = map(velocityMagnitude, 0, maxBallVelocity, 0, 1); // Normalisation de la vitesse entre 0 et 1
+                    color slowColor = color(255); // Couleur verte pour une vitesse lente
+                    color fastColor = color(255, 255, 0); // Couleur jaune pour une vitesse rapide
+                    velocityColor = lerpColor(slowColor, fastColor, normalizedVelocity);
+                    
+                    
                    velocity.add(gravity);
                    position.add(velocity);
                    
@@ -66,7 +74,7 @@ class Balls {
                                                                   float col = map(timeColor, 0, 120, 255, 0);
                                                                   if (timeColor > 0) { timeColor--; }else{floorHit=false;}
                                                                   ballColor = color(255, col, col);
-                                                   }else{ ballColor = color(255); }
+                                                   }else{ ballColor = velocityColor; }
                         fill(ballColor);
                         stroke(ballColor);
                        }
@@ -82,13 +90,11 @@ class Balls {
    }
    
    private void collideEnvironment(){
-           //float sensY = 1;
-           //float sensX = 1;
           collideBrique();
               
           if(collidePlateau()){ increaseEnergie(new PVector(0, 1)); }
           if(collideFloor()){
-                            //velocity.sub(dissipation); 
+                            velocity.sub(dissipation); 
                             badCollisionCount++; floorHit = true; timeColor = 60;
                             }
           
@@ -109,7 +115,7 @@ private void increaseEnergie(PVector e){
 
 private void collideBrique(){
                                     boolean reverseY = false; 
-                                    boolean reverseX = false;
+                                    //boolean reverseX = false;
                                     
                                     List<Brique> _briques = _level.getBriques();
                                       
@@ -120,12 +126,14 @@ private void collideBrique(){
                                                                       bricHit = true;
                                                                       timeBricCollisionColor = 60;
                                                                       reverseY = !reverseY;
-                                                                      reverseX = !reverseX;
+                                                                      
                                                                   }
+                                                                //if getCollideCorner
+                                                                //reverseX = !reverseX;
                                                                 }
                                         }
                                         sensY = reverseY;
-                                        sensX = reverseX; 
+                                        //sensX = reverseX; 
                           }
                           
 private boolean collideSky() { return position.y < 0 ? true : false; }

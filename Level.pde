@@ -3,6 +3,7 @@ import java.util.List;
 
 class Level {
   int ballNumber;
+  int difficulty = 1;
   FX screenFX;
   Plateau _plateau;
   UI _ui;
@@ -11,7 +12,8 @@ class Level {
   List<Brique> _briques;
 
   
-    Level(int tempBalls){
+    Level(int tempBalls, int tempDifficulty){
+      difficulty = tempDifficulty;
       ballNumber = tempBalls-1;
       screenFX = new FX();
       _plateau = new Plateau();
@@ -24,17 +26,24 @@ class Level {
       _balls.add(new Balls(new PVector(width/2+random(-100, 100), height/2 + random(-100, 100))));
       }
       
-      for (int i = 10; i <= 750; i += 10) {
-                  _briques.add(new Brique(i, i % 20 == 0 ? 310 : 300));
-              }
+      
+int numBrickRows = difficulty; // Nombre de lignes de briques à ajouter
+    
+for (int row = 0; row < numBrickRows; row++) {
+    int offsetX = row % 2 == 0 ? (int)random(10,20) : (int)random(20,50); // Offset de décalage sur l'axe x
+    
+    for (int i = offsetX; i <= width-25; i += 25) {
+        if (random(1) < difficulty * 0.02) {
+            _briques.add(new Brique(i, 50 + row * 10));
+        }
+    }
+}
       }
     
     public void draw(){
       
                     screenFX.draw();
-                    _ui.draw();
-                    _ui.setBricNumber( getBriquesNumber() );
-                    _ui.setBallNumber( getBallsNumber() );
+                    
                     
                     _balls.removeIf(ball -> ball.IsDead());
                     for (Balls ball : _balls) {
@@ -51,6 +60,10 @@ class Level {
                                                                           }
                                                     }
                      _plateau.draw();
+                     
+                     _ui.draw();
+                    _ui.setBricNumber( getBriquesNumber() );
+                    _ui.setBallNumber( getBallsNumber() );
                     }
                     
    public Plateau getPlayerLocal(){ return _plateau; }
@@ -58,5 +71,6 @@ class Level {
    
    public int getBallsNumber(){ return _balls.size(); }
    public int getBriquesNumber(){ return _briques.size(); }
+   public UI getUI(){return _ui;};
     
 }

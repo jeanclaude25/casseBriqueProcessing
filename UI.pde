@@ -2,6 +2,7 @@ class UI{
       
         int briqueNumber;
         int ballNumber;
+        int levelNumber;
       
        UI(){
          
@@ -11,8 +12,14 @@ class UI{
          textStyle();
          writeBriqueNumber(10, 20);
          writeBallNumber(10, 40);
+         writeLevelNumber(600, 20);
        }
-       
+   
+   private void writeLevelNumber(float x, float y){
+       String textToShow = "Level " + str(levelNumber);
+        text(textToShow, x, y);
+   }
+   
    private void writeBriqueNumber(float x, float y){
        String textToShow = "Bric " + str(briqueNumber);
         text(textToShow, x, y);
@@ -30,4 +37,5 @@ class UI{
    
    public void setBricNumber(int b){ briqueNumber = b;};
    public void setBallNumber(int b){ ballNumber = b;};
+   public void setLevelNumber(int b){ levelNumber = b;};
 }
