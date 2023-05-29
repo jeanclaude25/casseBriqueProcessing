@@ -1,11 +1,14 @@
 class Brique{
-    float WIDTH = 20;
-    float THICKNESS = 5;
+    float WIDTH = 50;
+    float THICKNESS = 20;
     float positionX, positionY;
+    float cornerRadius = 2;
     
     float startX, endX, startY, endY;
     
     float timeColor = 120;
+    color startColor = color(0, 191, 255); // Bleu clair (RVB : 0, 191, 255)
+color endColor = color(0, 0, 128);    // Bleu foncé (RVB : 0, 0, 128)
     color bricColor = color(255);
     
     int badCollision = 0;
@@ -14,7 +17,10 @@ class Brique{
     
   
   Brique(float tempPositionX, float tempPositionY){
-      positionX = tempPositionX;
+        WIDTH = map(difficulty, 1, 40, 50, 20);
+        THICKNESS = map(difficulty, 1, 40, 20, 5); 
+     
+    positionX = tempPositionX;
       positionY = tempPositionY;
       
       startX = tempPositionX;
@@ -29,7 +35,7 @@ class Brique{
            public void draw(){
                    
                    bricStyle();
-                   rect(positionX, positionY, WIDTH, THICKNESS);
+                   rect(positionX, positionY, WIDTH, THICKNESS, cornerRadius);
                    if(badCollision > life){ isDead = true; }
                  }
                  
@@ -41,8 +47,14 @@ class Brique{
                                              if(timeColor>0){ timeColor--; }
                                              bricColor = color(255,col,col);
                                              }
+                                   
+                                  float factor = map(badCollision, 0, life, 0, 1); // Facteur d'interpolation en fonction du nombre de collisions
+
+                                  bricColor = lerpColor(startColor, endColor, factor);
+
                                    fill(bricColor);
-                                   stroke(0,0,255);
+                                   noStroke();
+                                   //stroke(0,0,255);
                                  }
           
          public boolean IsNotDead(){ return !isDead; }             
