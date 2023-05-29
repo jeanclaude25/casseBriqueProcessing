@@ -35,7 +35,7 @@ color endColor = color(0, 0, 128);    // Bleu foncé (RVB : 0, 0, 128)
            public void draw(){
                    
                    bricStyle();
-                   rect(positionX, positionY, WIDTH, THICKNESS, cornerRadius);
+                   rect(positionX, positionY, WIDTH, THICKNESS);
                    if(badCollision > life){ isDead = true; }
                  }
                  
@@ -53,8 +53,8 @@ color endColor = color(0, 0, 128);    // Bleu foncé (RVB : 0, 0, 128)
                                   bricColor = lerpColor(startColor, endColor, factor);
 
                                    fill(bricColor);
-                                   noStroke();
-                                   //stroke(0,0,255);
+                                   //noStroke();
+                                   stroke(0,0,255);
                                  }
           
          public boolean IsNotDead(){ return !isDead; }             

@@ -16,6 +16,8 @@ class Balls {
   int badCollisionCount = 0;
   int bricCollisionCount = 0;
   
+  boolean collisionBricSoundPlaying = false;
+  
   boolean sensX = false;
   boolean sensY = false;
   
@@ -92,7 +94,9 @@ class Balls {
    private void collideEnvironment(){
           collideBrique();
               
-          if(collidePlateau()){ increaseEnergie(new PVector(0, 1)); }
+          if(collidePlateau()){ increaseEnergie(new PVector(0, 1)); 
+        //plateauSong.play(); 
+      }
           if(collideFloor()){
                             velocity.sub(dissipation); 
                             badCollisionCount++; floorHit = true; timeColor = 60;
@@ -101,7 +105,9 @@ class Balls {
 
            
            if(collideFloor()||collidePlateau()||collideSky()){ sensY = !sensY; }
-           if(collideWall()){ sensX = !sensX; }
+           if(collideWall()){ sensX = !sensX; 
+         //wallSong.play();
+       }
     
           velocity.y *= sensY ? -1 : 1;
           velocity.x *= sensX ? -1 : 1;
@@ -117,6 +123,11 @@ private void collideBrique(){
                                     boolean reverseY = false; 
                                     //boolean reverseX = false;
                                     
+                                    if(!bricHit){
+                                              collisionBricSoundPlaying = false;
+                                              bricSong.rewind();
+                                              }
+                                    
                                     List<Brique> _briques = _level.getBriques();
                                       
                                         for (Brique brique : _briques) {
@@ -124,6 +135,15 @@ private void collideBrique(){
                                                                 if (brique.getCollide(position.x, position.y)) {
                                                                       bricCollisionCount++;
                                                                       bricHit = true;
+                                                                      
+                                                                      //BricSong
+                                                                      bricSong.play();
+                                                                      if (!collisionBricSoundPlaying) {
+                                                                                            bricSong.play();
+                                                                                            collisionBricSoundPlaying = true;
+                                                                                        }
+                                                                                        
+                                                                                        
                                                                       timeBricCollisionColor = 60;
                                                                       reverseY = !reverseY;
                                                                       
