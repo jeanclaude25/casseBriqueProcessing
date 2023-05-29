@@ -1,5 +1,6 @@
 class Balls {
-  PVector position, velocity, energie, dissipation;
+  PVector position, velocity, dissipation;
+  float maxBallVelocity = 5.0;
   
   float size;
   PVector gravity = new PVector(0, 0.01);
@@ -18,7 +19,6 @@ class Balls {
     size = 10;
     position = new PVector(width/2, height/2);
     velocity = new PVector(1, 1);
-    energie = new PVector(0, 1);
     dissipation = new PVector(0, 1);
     ballColor = color(255);
     }
@@ -27,6 +27,8 @@ class Balls {
     
                    velocity.add(gravity);
                    position.add(velocity);
+                   
+                   
                    collideEnvironment();
                    
                    ballStyle();
@@ -58,19 +60,9 @@ class Balls {
    private void collideEnvironment(){
            //float sensY = 1;
            //float sensX = 1;
-          boolean reverseY = false; 
-          boolean reverseX = false; 
-          List<Brique> _briques = _level.getBriques();
-            
-              for (Brique brique : _briques) {
-                if (brique.getCollide(position.x, position.y)) {
-                      reverseY = !reverseY;
-                      reverseX = !reverseX;
-                  }
-              }
-              sensY = reverseY;
-    sensX = reverseX;
-          if(collidePlateau()){velocity.add(energie); }
+          collideBrique();
+              
+          if(collidePlateau()){ increaseEnergie(new PVector(0, 1)); }
           if(collideFloor()){
                             //velocity.sub(dissipation); 
                             badCollision++; timeColor = 120;
@@ -78,13 +70,36 @@ class Balls {
           
 
            
-           if(collideFloor()||collidePlateau()){ sensY = !sensY; }
+           if(collideFloor()||collidePlateau()||collideSky()){ sensY = !sensY; }
            if(collideWall()){ sensX = !sensX; }
     
           velocity.y *= sensY ? -1 : 1;
           velocity.x *= sensX ? -1 : 1;
    }
 
+private void increaseEnergie(PVector e){
+                                           if(velocity.x < maxBallVelocity && velocity.y < maxBallVelocity){ 
+                                              velocity.add(e);
+                                            }             
+                                          }
+
+private void collideBrique(){
+                                    boolean reverseY = false; 
+                                    boolean reverseX = false;
+                                    
+                                    List<Brique> _briques = _level.getBriques();
+                                      
+                                        for (Brique brique : _briques) {
+                                          if (brique.getCollide(position.x, position.y)) {
+                                                reverseY = !reverseY;
+                                                reverseX = !reverseX;
+                                            }
+                                        }
+                                        sensY = reverseY;
+                                        sensX = reverseX; 
+                          }
+                          
+private boolean collideSky() { return position.y < 0 ? true : false; }
 private boolean collideFloor() { return position.y > height ? true : false; }
 private boolean collideWall() { return position.x > width || position.x < 0 ? true : false; }
 private boolean collidePlateau(){ return _level.getPlayerLocal().getCollide(position.x, position.y);}
