@@ -138,10 +138,11 @@ private void collideBrique(){
                                                                       
                                                                       //BricSong
                                                                       bricSong.play();
+                                                                      /*
                                                                       if (!collisionBricSoundPlaying) {
                                                                                             bricSong.play();
                                                                                             collisionBricSoundPlaying = true;
-                                                                                        }
+                                                                                        }*/
                                                                                         
                                                                                         
                                                                       timeBricCollisionColor = 60;

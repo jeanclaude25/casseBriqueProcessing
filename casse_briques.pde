@@ -4,6 +4,7 @@ AudioPlayer bricSong, plateauSong, wallSong;
 
 Level _level;
 int difficulty = 40;
+int numberBallAtStart = 1;
 
 
 void setup(){
@@ -19,7 +20,7 @@ bricSong = minim.loadFile("bricSong.mp3");
 plateauSong = minim.loadFile("bricSong.mp3");
 wallSong = minim.loadFile("bricSong.mp3");
 
-_level = new Level(10, difficulty);
+_level = new Level(numberBallAtStart, difficulty);
 _level.getUI().setLevelNumber(difficulty);
 //hint(DISABLE_DEPTH_MASK);
 
