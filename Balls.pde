@@ -16,8 +16,6 @@ class Balls {
   int badCollisionCount = 0;
   int bricCollisionCount = 0;
   
-  boolean collisionBricSoundPlaying = false;
-  
   boolean sensX = false;
   boolean sensY = false;
   
@@ -124,8 +122,7 @@ private void collideBrique(){
                                     //boolean reverseX = false;
                                     
                                     if(!bricHit){
-                                              collisionBricSoundPlaying = false;
-                                              bricSong.rewind();
+                                              //bricSong.rewind();
                                               }
                                     
                                     List<Brique> _briques = _level.getBriques();
@@ -137,13 +134,7 @@ private void collideBrique(){
                                                                       bricHit = true;
                                                                       
                                                                       //BricSong
-                                                                      bricSong.play();
-                                                                      /*
-                                                                      if (!collisionBricSoundPlaying) {
-                                                                                            bricSong.play();
-                                                                                            collisionBricSoundPlaying = true;
-                                                                                        }*/
-                                                                                        
+                                                                      //bricSong.play();                 
                                                                                         
                                                                       timeBricCollisionColor = 60;
                                                                       reverseY = !reverseY;
