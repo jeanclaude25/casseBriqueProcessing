@@ -30,8 +30,12 @@ class Level {
                     if(!_balls.IsNotDead()){_balls.draw();}
                     _plateau.draw();
                     
+                    _briques.removeIf(brique -> brique.IsDead());
+                    
                     for (Brique brique : _briques) {
-                                                        brique.draw();
+                                                    if(brique.IsNotDead()){
+                                                                          brique.draw();
+                                                                          }
                                                     }
                     }
                     

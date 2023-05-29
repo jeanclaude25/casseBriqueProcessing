@@ -30,6 +30,7 @@ class Brique{
                    
                    bricStyle();
                    rect(positionX, positionY, WIDTH, THICKNESS);
+                   if(badCollision > life){ isDead = true; }
                  }
                  
                  
@@ -44,8 +45,9 @@ class Brique{
                                    stroke(0,0,255);
                                  }
           
-                       
-                                 
+         public boolean IsNotDead(){ return !isDead; }             
+         public boolean IsDead(){ return isDead; }
+         
          public boolean getCollide(float x, float y){
                                          if(x > startX && x < endX && y > startY && y< endY){
                                                                                              timeColor = 120;

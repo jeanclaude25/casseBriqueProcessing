@@ -90,10 +90,12 @@ private void collideBrique(){
                                     List<Brique> _briques = _level.getBriques();
                                       
                                         for (Brique brique : _briques) {
-                                          if (brique.getCollide(position.x, position.y)) {
-                                                reverseY = !reverseY;
-                                                reverseX = !reverseX;
-                                            }
+                                                      if(brique.IsNotDead()){
+                                                                if (brique.getCollide(position.x, position.y)) {
+                                                                      reverseY = !reverseY;
+                                                                      reverseX = !reverseX;
+                                                                  }
+                                                                }
                                         }
                                         sensY = reverseY;
                                         sensX = reverseX; 
