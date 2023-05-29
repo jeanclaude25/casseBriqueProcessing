@@ -19,6 +19,7 @@ hint(DISABLE_DEPTH_MASK);
 
 void draw(){
 
+if(_level.getBallsNumber() < 1 || _level.getBriquesNumber() < 1){ _level = new Level(); }
 _level.draw();
 
 }

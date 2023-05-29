@@ -14,10 +14,10 @@ class Balls {
   boolean sensX = false;
   boolean sensY = false;
   
-  Balls(){
+  Balls(PVector pos){
     isDead = false;
     size = 10;
-    position = new PVector(width/2, height/2);
+    position = pos;
     velocity = new PVector(1, 1);
     dissipation = new PVector(0, 1);
     ballColor = color(255);
@@ -48,7 +48,8 @@ class Balls {
                         stroke(ballColor);
                        }
    
-   public boolean IsNotDead(){ return isDead; }
+   public boolean IsNotDead(){ return !isDead; }
+   public boolean IsDead(){ return isDead; }
    
    private void calculateIfBallIsDead(){
      float safeOffset = 10.0;
